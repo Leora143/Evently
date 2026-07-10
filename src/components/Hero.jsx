@@ -2,6 +2,7 @@ import React from "react";
 import '../evently.css'
 import herobg from "../assets/herobg.png";
 import Navbar from "./Navbar";
+import Stats from "./Stats";
 
 
 function Hero() {
@@ -75,6 +76,7 @@ function Hero() {
 
             </div>
             </div>
+            <Stats/>
             </section>
     );
 }
