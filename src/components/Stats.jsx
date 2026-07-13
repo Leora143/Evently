@@ -9,7 +9,7 @@ import {
 
 function Stats() {
     return (
-        <section className="bg-transparent w-3xl h-2.5 rounded-lg ">
+        <section className="absolute left-1/2 -bottom-12 -translate-x-1/2 z-20  bg-transparent shadow-lg shadow-orchid w-3xl h-20 rounded-lg ">
             <div className="flex flex-row  bg-lavender rounded-lg py-5 px-0.5 gap-20 justify-center items-center font-serif font-extralight shadow-md">
                 <div className="flex flex-row gap-2.5 items-center">
                     <CalendarDays />

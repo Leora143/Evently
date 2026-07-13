@@ -3,13 +3,16 @@ import '../evently.css'
 import herobg from "../assets/herobg.png";
 import Navbar from "./Navbar";
 import Stats from "./Stats";
+import Categories from "./Categories";
+
 
 
 function Hero() {
     return (
-        <section  className=" min-h-screen bg-imperial bg-cover bg-center">
+      <>
+        <section  className=" relative  bg-imperial bg-cover bg-center">
           <Navbar/>
-            <div className= "flex flex-row justify-between min-h-screen bg-imperial">
+            <div className= "flex flex-row justify-between h-145  bg-imperial">
             {/* right container */}
             <div className="w-[50%] mt-10 ml-15">
             {/* //heading div */}
@@ -41,11 +44,11 @@ function Hero() {
              </div>
             </div>
             {/* left container */}
-            <div className=" relative w-[60%] ">  
+            <div className=" relative w-[60%] h-145 ">  
                 <div> 
                     <img src={herobg} 
                     alt="hero image" 
-                    className="w-full h-screen object-cover"
+                    className="w-full  object-cover"
         style={{
     WebkitMaskImage: `
       radial-gradient(
@@ -78,6 +81,8 @@ function Hero() {
             </div>
             <Stats/>
             </section>
+            <Categories/>
+            </>
     );
 }
 export default Hero;
