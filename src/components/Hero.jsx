@@ -4,6 +4,7 @@ import herobg from "../assets/herobg.png";
 import Navbar from "./Navbar";
 import Stats from "./Stats";
 import Categories from "./Categories";
+import WhyChoose from "./Why-choose";
 
 
 
@@ -82,6 +83,7 @@ function Hero() {
             <Stats/>
             </section>
             <Categories/>
+            <WhyChoose/>
             </>
     );
 }
