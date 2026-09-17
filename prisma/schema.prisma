@@ -1,0 +1,143 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  CREATOR
+  ADMIN
+}
+
+enum EventType {
+  PUBLIC
+  PRIVATE
+}
+
+enum EventStatus {
+  DRAFT
+  PUBLISHED
+  CANCELLED
+}
+
+enum BookingStatus {
+  CONFIRMED
+  PENDING
+  CANCELLED
+}
+
+enum PaymentStatus {
+  FREE
+  PENDING
+  PAID
+  REFUNDED
+}
+
+enum InviteStatus {
+  SENT
+  ACCEPTED
+  DECLINED
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(USER)
+  phone     String?
+  avatarUrl String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  events   Event[]   @relation("organizer")
+  bookings Booking[]
+}
+
+model Category {
+  id     String  @id @default(auto()) @map("_id") @db.ObjectId
+  name   String  @unique
+  slug   String  @unique
+  icon   String  @default("sparkle")
+  events Event[]
+}
+
+model Event {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  type        EventType   @default(PUBLIC)
+  status      EventStatus @default(PUBLISHED)
+
+  date      DateTime
+  startTime String
+  endTime   String
+  location  String
+
+  isPaid   Boolean @default(false)
+  price    Float   @default(0)
+  currency String  @default("INR")
+
+  totalSeats  Int
+  bookedSeats Int @default(0)
+
+  imageUrl String?
+  // Private events are reachable only through this code.
+  inviteCode String? @unique
+
+  categoryId  String?   @db.ObjectId
+  category    Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  organizerId String    @db.ObjectId
+  organizer   User      @relation("organizer", fields: [organizerId], references: [id], onDelete: Cascade)
+
+  bookings Booking[]
+  invites  Invite[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([type, status, date])
+  @@index([organizerId])
+}
+
+model Booking {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  code   String @unique
+  seats  Int    @default(1)
+  amount Float  @default(0)
+
+  status        BookingStatus @default(CONFIRMED)
+  paymentStatus PaymentStatus @default(FREE)
+  paymentRef    String?
+
+  checkedIn   Boolean   @default(false)
+  checkedInAt DateTime?
+
+  eventId String @db.ObjectId
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  userId  String @db.ObjectId
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([eventId])
+}
+
+model Invite {
+  id      String       @id @default(auto()) @map("_id") @db.ObjectId
+  email   String
+  name    String?
+  status  InviteStatus @default(SENT)
+  eventId String       @db.ObjectId
+  event   Event        @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([eventId, email])
+}
