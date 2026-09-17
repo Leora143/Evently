@@ -1,0 +1,83 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --color-imperial: #2a123f;
+  --color-amethyst: #4b1f6f;
+  --color-lavender: #9c86b9;
+  --color-orchid: #c686dd;
+  --color-moon: #f1edf7;
+
+  /* Kept apart from the brand palette so status never reads as decoration. */
+  --color-leaf: #2f7a46;
+  --color-leaf-soft: #e4f3e8;
+  --color-amber-deep: #b9791a;
+  --color-amber-soft: #fbefdc;
+  --color-rose-deep: #b23a48;
+  --color-rose-soft: #fae4e7;
+
+  --font-serif: "Fraunces", Georgia, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-moon);
+    color: var(--color-imperial);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Keyboard users need to see where they are. */
+  :focus-visible {
+    outline: 2px solid var(--color-orchid);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: var(--color-orchid);
+    color: var(--color-moon);
+  }
+}
+
+@layer components {
+  /* The die-cut edge of a paper ticket. Used on anything bookable so the
+     same object always looks like the same object. */
+  .ticket-notch {
+    position: relative;
+  }
+
+  .ticket-notch::before,
+  .ticket-notch::after {
+    content: "";
+    position: absolute;
+    width: 0.875rem;
+    height: 0.875rem;
+    border-radius: 9999px;
+    background: var(--color-moon);
+    left: -0.4375rem;
+  }
+
+  .ticket-notch::before {
+    top: -0.4375rem;
+  }
+
+  .ticket-notch::after {
+    bottom: -0.4375rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
