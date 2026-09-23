@@ -16,7 +16,10 @@ app.use("*", logger());
 app.use(
   "*",
   cors({
-    origin: (process.env.CLIENT_URL || "http://localhost:5173").split(","),
+    origin: [
+  "http://localhost:5173",
+  "https://evently-events-cc9vja65s-helenjisna-2481s-projects.vercel.app"
+],
     allowHeaders: ["Content-Type", "Authorization"],
     allowMethods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
     credentials: true,
